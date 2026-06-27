@@ -1,5 +1,6 @@
 package com.angel.biblioteca_api.controller;
 
+import com.angel.biblioteca_api.dto.LoanResponse;
 import com.angel.biblioteca_api.model.Loan;
 import com.angel.biblioteca_api.service.LoanService;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/loans")
@@ -17,18 +19,20 @@ public class LoanController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Loan create(@RequestParam Long userId, @RequestParam Long bookId){
-        return loanService.createLoan(userId, bookId);
+    public LoanResponse create(@RequestParam Long userId, @RequestParam Long bookId){
+        return LoanResponse.fromEntity(loanService.createLoan(userId, bookId));
     }
 
     @PutMapping("/{id}/return")
-    public Loan returnLoan (@PathVariable Long id){
-        return loanService.returnLoan(id);
+    public LoanResponse returnLoan (@PathVariable Long id){
+        return LoanResponse.fromEntity(loanService.returnLoan(id));
     }
 
     @GetMapping("/user/{userId}")
-    public List<Loan> getByUSer(@PathVariable Long userId){
-        return loanService.findByUserId(userId);
+    public List<LoanResponse> getByUSer(@PathVariable Long userId){
+        return loanService.findByUserId(userId).stream()
+                .map(LoanResponse::fromEntity)
+                .collect(Collectors.toList());
     }
 
 }

@@ -1,8 +1,10 @@
 package com.angel.biblioteca_api.controller;
 
 import com.angel.biblioteca_api.dto.UserRequest;
+import com.angel.biblioteca_api.dto.UserResponse;
 import com.angel.biblioteca_api.model.User;
 import com.angel.biblioteca_api.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,17 +18,17 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public User register(@RequestBody UserRequest request){
+    public UserResponse register(@Valid @RequestBody UserRequest request){
         User user = new User();
         user.setName(request.getName());
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
         user.setRole(User.Role.USER);
-        return userService.register(user);
+        return UserResponse.fromEntity(userService.register(user));
     }
 
     @GetMapping("/{id}")
-    public User getById(@PathVariable Long id){
-        return userService.findById(id);
+    public UserResponse getById(@PathVariable Long id){
+        return UserResponse.fromEntity(userService.findById(id));
     }
 }
