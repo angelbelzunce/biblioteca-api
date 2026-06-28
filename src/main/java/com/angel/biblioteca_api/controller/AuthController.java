@@ -36,6 +36,7 @@ public class AuthController {
         return UserResponse.fromEntity(userService.register(user));
     }
 
+
     @PostMapping("/login")
     public AuthResponse login(@RequestBody LoginRequest request) {
         authenticationManager.authenticate(
@@ -44,5 +45,7 @@ public class AuthController {
         String token = jwtUtil.generateToken(request.getEmail());
         return new AuthResponse(token);
     }
+
+
 
 }
