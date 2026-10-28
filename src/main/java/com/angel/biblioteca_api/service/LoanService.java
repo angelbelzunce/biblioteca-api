@@ -1,6 +1,7 @@
 package com.angel.biblioteca_api.service;
 
 import com.angel.biblioteca_api.exception.InsufficientStockException;
+import com.angel.biblioteca_api.exception.LoanAlreadyReturnedException;
 import com.angel.biblioteca_api.exception.ResourceNotFoundException;
 import com.angel.biblioteca_api.model.Book;
 import com.angel.biblioteca_api.model.Loan;
@@ -53,7 +54,7 @@ public class LoanService {
                 .orElseThrow(() -> new ResourceNotFoundException("Loan not found with id: " + loanId));
 
         if (Boolean.TRUE.equals(loan.getReturned())){
-            throw new RuntimeException("This loan has already been returned");
+            throw new LoanAlreadyReturnedException("This loan has already been returned");
         }
 
         loan.setReturned(true);

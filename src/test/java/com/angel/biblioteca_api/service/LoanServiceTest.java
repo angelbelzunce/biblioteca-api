@@ -1,6 +1,7 @@
 package com.angel.biblioteca_api.service;
 
 import com.angel.biblioteca_api.exception.InsufficientStockException;
+import com.angel.biblioteca_api.exception.LoanAlreadyReturnedException;
 import com.angel.biblioteca_api.exception.ResourceNotFoundException;
 import com.angel.biblioteca_api.model.Book;
 import com.angel.biblioteca_api.model.Loan;
@@ -80,8 +81,8 @@ public class LoanServiceTest {
 
         when(loanRepository.findById(1L)).thenReturn(Optional.of(loan));
 
-        // TODO: usar una excepción propia en vez de RuntimeException.
-        assertThrows(RuntimeException.class, () -> loanService.returnLoan(1L));
+        // Comprobamos que lanza la excepción de préstamo ya devuelto
+        assertThrows(LoanAlreadyReturnedException.class, () -> loanService.returnLoan(1L));
     }
 
     @Test
