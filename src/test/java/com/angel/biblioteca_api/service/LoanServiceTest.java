@@ -40,7 +40,7 @@ public class LoanServiceTest {
     private LoanService loanService;
 
     @Test
-    void createLoan_usuarioNoExiste_lanzaExcepcion() {
+    void createLoan_userNotFound_throwsException() {
         // Cuando busque el usuario 99, que no encuentre nada (Optional vacío).
         when(userRepository.findById(99L)).thenReturn(Optional.empty());
 
@@ -49,7 +49,7 @@ public class LoanServiceTest {
     }
 
     @Test
-    void createLoan_libroNoExiste_lanzaExcepcion() {
+    void createLoan_bookNotFound_throwsException() {
         // El usuario existe pero el libro no.
         User user = new User();
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
@@ -59,7 +59,7 @@ public class LoanServiceTest {
     }
 
     @Test
-    void createLoan_stockInsuficiente_lanzaExcepcion() {
+    void createLoan_insufficientStock_throwsException() {
         // Todo existe pero no quedan ejemplares del libro.
         User user = new User();
         Book book = new Book();
@@ -74,7 +74,7 @@ public class LoanServiceTest {
     }
 
     @Test
-    void returnLoan_prestamoDevuelto_lanzaExcepcion() {
+    void returnLoan_loanAlreadyReturned_throwsException() {
         // Un préstamo que ya estaba devuelto no se puede devolver otra vez.
         Loan loan = new Loan();
         loan.setReturned(true);
@@ -86,7 +86,7 @@ public class LoanServiceTest {
     }
 
     @Test
-    void createLoan_datosValidos_creaPrestamoYReduceStock() {
+    void createLoan_validData_createsLoanAndDecreasesStock() {
         // Caso normal: usuario y libro existen y hay 3 ejemplares.
         User user = new User();
         Book book = new Book();

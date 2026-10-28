@@ -13,7 +13,7 @@ public class LoanResponse {
     private UserResponse user;
     private BookResponse book;
     private LocalDate loanDate;
-    private LocalDate renturnDate;
+    private LocalDate returnDate;
     private Boolean returned;
 
     public static LoanResponse fromEntity(Loan loan){
